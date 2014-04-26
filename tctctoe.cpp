@@ -5,6 +5,7 @@
 //  Created by Susan Steinman on 4/22/14.
 //
 //
+// versioned on github
 
 #include <iostream>
 #include <ncurses.h>
