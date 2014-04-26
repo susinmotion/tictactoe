@@ -8,7 +8,7 @@
 // versioned on github
 
 #include <iostream>
-#include <ncurses.h>
+#include <ncurses.h> //use -lncurses in command lines
 using namespace std;
 
 class Game{
