@@ -41,24 +41,34 @@ Game::Game(){
         moveCounter=0;
     if (gameCounter%2==0){
         player='X';
-        printw("X goes first\n");
+        //printw("X goes first\n");
     }
     else {
         player='O';
-        printw("O goes first\n");
+       // printw("O goes first\n");
     }
     refresh();
+    //getch();
         getMoves();
     
 }
 
 void Game::printBoard(){
-    wmove(stdscr, 2, 0);
-        printw(" ","%c",position[0]," | ","%c",position[1]," | ","%c",position[2],"\n");
-        printw("------------\n");
-        printw(" ","%c",position[3]," | ","%c",position[4]," | ","%c",position[5],"\n");
-        printw("------------\n");
-    printw(" ","%c",position[6]," | ","%c",position[7]," | ","%c",position[8],"\n");
+    int moveLine=(gameCounter*7)+1;
+    wmove(stdscr, moveLine, 0);
+    clrtobot();
+    printw("\n %c",position[0]);
+    printw(" | %c",position[1]);
+    printw(" | %c",position[2]);
+    printw("\n------------\n");
+    printw(" %c",position[3]);
+    printw(" | %c",position[4]);
+    printw(" | %c",position[5]);
+    printw("\n------------\n");
+    printw(" %c",position[6]);
+    printw(" | %c",position[7]);
+    printw(" | %c",position[8]);
+    printw("\n");
     refresh();
 
 }
@@ -66,9 +76,12 @@ void Game::printBoard(){
 void Game::getMoves(){
     int aMove;
     while (moveCounter<9){
-        printw("Player ","%c",player,": where would you like to move?\n");
+        printBoard();
+        printw("Player %c", player);
+        printw(": where would you like to move?\n");
         refresh();
         aMove=getch();
+        aMove=aMove-'0';
         moveCheck(aMove);
         if (player=='X'){
             player='O';
@@ -85,12 +98,17 @@ void Game::getMoves(){
     playAgain();
 }
 void Game::moveCheck(int aMove){
+    int y,x;
     if( position[aMove-1]==' '){
         position[aMove-1]=player;
     }
     else{
         printw("Invalid move. Please enter an empty space.\n");
         aMove=getch();
+        getyx(stdscr, y, x);
+        move(y-1, x);
+        clrtobot();
+        aMove=aMove-'0';
         moveCheck(aMove);
     }
     
@@ -112,41 +130,56 @@ char Game::checkWin(){
 }
 
 void Game::printWin(char winner){
-        printw("%c",winner," won this round.\n");
+    printw("%c",winner);
+    printw(" won this round.\n");
         if (winner=='X'){
             xWins++;
         }
         if (winner=='O'){
             oWins++;
         }
+    refresh();
     playAgain();
 }
 
 void Game::playAgain(){
+    int y,x;
     printw("Would you like to play again? (y/n)\n");
-    
-    char playAgainCheck;
-    cin>>playAgainCheck;
+    refresh();
+    int playAgainCheck;
+    playAgainCheck=getch();
+    getyx(stdscr, y, x);
+    move(y-2, x);
+    clrtobot();
     if (playAgainCheck=='y'|| playAgainCheck=='Y'){
         gameCounter++;
         Game gameCounter;
     }
     else if (playAgainCheck=='n'|| playAgainCheck=='N'){
     
-        printw("X won ","%i%",xWins," games. \n");
-        printw("O won ","%i%",oWins," games. \n");
+        printw("X won %i%",xWins);
+        printw(" games. \n");
+        printw("O won %i%",oWins);
+        printw(" games. \n");
         if (xWins>oWins){
             printw("Congratulations X.\n");
         }
         if (oWins>xWins){
             printw("Congratulations O.\n");
         }
+        refresh();
+        printw("press any key to exit\n");
+        getch();
+        //timeout(3000);
+        //printw("goodbye, anyway!");
+        endwin();
         exit(1);
     }
     else{
         printw("Please enter a valid character\n");
         playAgain();
     }
+
 }
 
 
@@ -160,14 +193,15 @@ int main(){
     
     printw("Welcome to tic tac toe. \n");
     
-    printw(" 1  | 2 | 3\n");
+    printw("\n 1  | 2 | 3\n");
     printw("------------\n");
     printw(" 4 | 5 | 6\n");
     printw("------------\n");
     printw(" 7 | 8 | 9\n");
 
-    printw("Type the number of the square you would like to make your move in.\n");
+    printw("Type the number of the square you would like to make your move in.\n Press any key to start playing!\n");
     refresh();
+    getch();
     Game aGame;
     endwin();
     return 0;
