@@ -22,7 +22,7 @@ public:
     char checkWin();
     void printWin(char winner);
     void playAgain();
-    void moveCheck(int move);
+    void moveCheck(int aMove);
     static int xWins;
     static int oWins;
     static int gameCounter;
@@ -41,32 +41,35 @@ Game::Game(){
         moveCounter=0;
     if (gameCounter%2==0){
         player='X';
-        cout<<"X goes first"<<endl;
+        printw("X goes first\n");
     }
     else {
         player='O';
-        cout<<"O goes first"<<endl;
+        printw("O goes first\n");
     }
+    refresh();
         getMoves();
     
 }
 
 void Game::printBoard(){
     wmove(stdscr, 2, 0);
-        cout<<" "<<position[0]<<" | "<<position[1]<<" | "<<position[2]<<endl;
-        cout<<"------------\n";
-        cout<<" "<<position[3]<<" | "<<position[4]<<" | "<<position[5]<<endl;
-        cout<<"------------\n";
-        cout<<" "<<position[6]<<" | "<<position[7]<<" | "<<position[8]<<endl;
+        printw(" ","%c",position[0]," | ","%c",position[1]," | ","%c",position[2],"\n");
+        printw("------------\n");
+        printw(" ","%c",position[3]," | ","%c",position[4]," | ","%c",position[5],"\n");
+        printw("------------\n");
+    printw(" ","%c",position[6]," | ","%c",position[7]," | ","%c",position[8],"\n");
+    refresh();
 
 }
 
 void Game::getMoves(){
-    int move;
+    int aMove;
     while (moveCounter<9){
-        cout<<"Player "<<player<<": where would you like to move?"<<endl;
-        cin>>move;
-        moveCheck(move);
+        printw("Player ","%c",player,": where would you like to move?\n");
+        refresh();
+        aMove=getch();
+        moveCheck(aMove);
         if (player=='X'){
             player='O';
         }
@@ -78,17 +81,17 @@ void Game::getMoves(){
         }
         else printWin(checkWin());
     }
-    cout<<"Cat's game"<<endl;
+    printw("Cat's game\n");
     playAgain();
 }
-void Game::moveCheck(int move){
-    if( position[move-1]==' '){
-        position[move-1]=player;
+void Game::moveCheck(int aMove){
+    if( position[aMove-1]==' '){
+        position[aMove-1]=player;
     }
     else{
-        cout<<"Invalid move. Please enter an empty space."<<endl;
-        cin>>move;
-        moveCheck(move);
+        printw("Invalid move. Please enter an empty space.\n");
+        aMove=getch();
+        moveCheck(aMove);
     }
     
 }
@@ -109,7 +112,7 @@ char Game::checkWin(){
 }
 
 void Game::printWin(char winner){
-        cout<<winner<<" won this round."<<endl;
+        printw("%c",winner," won this round.\n");
         if (winner=='X'){
             xWins++;
         }
@@ -120,7 +123,7 @@ void Game::printWin(char winner){
 }
 
 void Game::playAgain(){
-    cout<<"Would you like to play again? (y/n)"<<endl;
+    printw("Would you like to play again? (y/n)\n");
     
     char playAgainCheck;
     cin>>playAgainCheck;
@@ -130,18 +133,18 @@ void Game::playAgain(){
     }
     else if (playAgainCheck=='n'|| playAgainCheck=='N'){
     
-        cout<<"X won "<<xWins<<" games. "<<endl;
-        cout<<"O won "<<oWins<<" games. "<<endl;
+        printw("X won ","%i%",xWins," games. \n");
+        printw("O won ","%i%",oWins," games. \n");
         if (xWins>oWins){
-            cout<<"Congratulations X."<<endl;
+            printw("Congratulations X.\n");
         }
         if (oWins>xWins){
-            cout<<"Congratulations O."<<endl;
+            printw("Congratulations O.\n");
         }
         exit(1);
     }
     else{
-        cout<<"Please enter a valid character"<<endl;
+        printw("Please enter a valid character\n");
         playAgain();
     }
 }
@@ -150,15 +153,22 @@ void Game::playAgain(){
 
 int main(){
    initscr();
-    cout<<"Welcome to tic tac toe. "<<endl;
+    cbreak();
+    noecho();
+    intrflush(stdscr, false);
+    keypad(stdscr, true);
     
-    cout<<" 1  | 2 | 3"<<endl;
-    cout<<"------------\n";
-    cout<<" 4 | 5 | 6"<<endl;
-    cout<<"------------\n";
-    cout<<" 7 | 8 | 9"<<endl;
+    printw("Welcome to tic tac toe. \n");
+    
+    printw(" 1  | 2 | 3\n");
+    printw("------------\n");
+    printw(" 4 | 5 | 6\n");
+    printw("------------\n");
+    printw(" 7 | 8 | 9\n");
 
-    cout<<"Type the number of the square you would like to make your move in."<<endl;
+    printw("Type the number of the square you would like to make your move in.\n");
+    refresh();
     Game aGame;
+    endwin();
     return 0;
 }
