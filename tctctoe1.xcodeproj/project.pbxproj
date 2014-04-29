@@ -28,6 +28,7 @@
 		812C84ED190B420F00D4B1F0 /* tctctoe1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tctctoe1; sourceTree = BUILT_PRODUCTS_DIR; };
 		812C84F2190B420F00D4B1F0 /* tctctoe1.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = tctctoe1.1; sourceTree = "<group>"; };
 		812C84F9190B4C0C00D4B1F0 /* tctctoe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tctctoe.cpp; path = ../tctctoe.cpp; sourceTree = "<group>"; };
+		812C84FE190F475600D4B1F0 /* tctctoe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tctctoe.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				812C84F9190B4C0C00D4B1F0 /* tctctoe.cpp */,
+				812C84FE190F475600D4B1F0 /* tctctoe.h */,
 				812C84F2190B420F00D4B1F0 /* tctctoe1.1 */,
 			);
 			path = tctctoe1;
@@ -216,6 +218,7 @@
 				812C84F8190B420F00D4B1F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
